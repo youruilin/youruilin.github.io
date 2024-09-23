@@ -26,6 +26,15 @@ svg.icon {
   background: rgba(0, 0, 0, 0.5) !important;
 }
 
+/* 特定部件字体调用 */
+div#menus {
+  font-weight: bold !important;
+}
+h1#site-title {
+  font-size: 3.5em !important;
+  font-weight: bold !important;
+}
+
 /* 白天模式遮罩透明 */
 #footer::before {
   background: transparent !important;
@@ -42,11 +51,50 @@ svg.icon {
   background: transparent !important;
 }
 
+/* 夜间模式菜单栏发光字 */
+[data-theme="dark"] #nav .site-page,
+[data-theme="dark"] #nav .menus_items .menus_item .menus_item_child li a {
+  text-shadow: 0 0 2px var(--theme-color) !important;
+}
+
+/* 手机端适配 */
+[data-theme="dark"] #sidebar #sidebar-menus .menus_items .site-page {
+  text-shadow: 0 0 2px var(--theme-color) !important;
+}
+
+/* 闪烁变动颜色连续渐变 */
+#site-name,
+#site-title,
+#site-subtitle,
+#post-info,
+.author-info__name,
+.author-info__description {
+  transition: text-shadow 1s linear !important;
+}
 
 /* 翻页按钮居中 */
 #pagination {
   width: 100%;
   margin: auto;
+}
+
+/* 全局宽度 */
+.layout {
+  max-width: 1400px;
+}
+
+/* 侧边卡片栏宽度 */
+.aside-content {
+  max-width: 318px;
+  min-width: 300px;
+}
+
+/* 平板尺寸自适应(不启用侧边栏宽度限制) */
+@media screen and (max-width: 900px) {
+  .aside-content {
+    max-width: none !important;
+    padding: 0 5px 0 5px;
+  }
 }
 
 /* 小冰分类分类磁铁黑夜模式适配 */
@@ -222,6 +270,42 @@ svg.icon {
   padding: 20px 20px;
 }
 
+/* 个人信息卡片背景图 */
+[data-theme="light"] #aside-content > .card-widget.card-info {
+  background-image: url(https://github.com/youruilin/pic_bed/blob/main/bcg_img/%E9%A6%96%E9%A1%B5%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8D%A1%E7%89%87.png?raw=true);
+  background-repeat: no-repeat;
+  background-attachment: inherit;
+  background-size: cover; /* 背景图片保持比例并裁剪以填满盒子 */
+}
+[data-theme="dark"] #aside-content > .card-widget.card-info {
+  background-image: url(https://github.com/youruilin/pic_bed/blob/main/bcg_img/%E9%A6%96%E9%A1%B5%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E5%8D%A1%E7%89%87.png?raw=true);
+  background-repeat: no-repeat;
+  background-attachment: inherit;
+  background-size: cover; /* 背景图片保持比例并裁剪以填满盒子 */
+}
+
+/* 帧率检测 */
+#fps {
+  position: fixed;
+  /* 指定位置 */
+  left: 10px;
+  bottom: 10px;
+  z-index: 1919810;
+}
+[data-theme="light"] #fps {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: var(--backdrop-filter);
+  padding: 4px;
+  border-radius: 4px;
+}
+[data-theme="dark"] #fps {
+  background-color: rgba(0, 0, 0, 0.72);
+  backdrop-filter: var(--backdrop-filter);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+
 /* 页脚心跳动画 */
 #heartbeat {
   color: red;
@@ -308,126 +392,8 @@ svg.icon {
   }
 }
 
-/* 日间模式不生效 */
-[data-theme="light"] #site-name,
-[data-theme="light"] #site-title,
-[data-theme="light"] #site-subtitle,
-[data-theme="light"] #post-info {
-  animation: none;
-}
-/* 夜间模式生效 */
-[data-theme="dark"] #site-name,
-[data-theme="dark"] #site-title {
-  animation: light_15px 10s linear infinite;
-}
-[data-theme="dark"] #site-subtitle {
-  animation: light_10px 10s linear infinite;
-}
-[data-theme="dark"] #post-info {
-  animation: light_5px 10s linear infinite;
-}
-/* 关键帧描述 */
-@keyframes light_15px {
-  0% {
-    text-shadow: #5636ed 0 0 15px;
-  }
-  12.5% {
-    text-shadow: #11ee5e 0 0 15px;
-  }
-  25% {
-    text-shadow: #f14747 0 0 15px;
-  }
-  37.5% {
-    text-shadow: #f1a247 0 0 15px;
-  }
-  50% {
-    text-shadow: #f1ee47 0 0 15px;
-  }
-  50% {
-    text-shadow: #b347f1 0 0 15px;
-  }
-  62.5% {
-    text-shadow: #002afa 0 0 15px;
-  }
-  75% {
-    text-shadow: #ed709b 0 0 15px;
-  }
-  87.5% {
-    text-shadow: #39c5bb 0 0 15px;
-  }
-  100% {
-    text-shadow: #5636ed 0 0 15px;
-  }
-}
-
-@keyframes light_10px {
-  0% {
-    text-shadow: #5636ed 0 0 10px;
-  }
-  12.5% {
-    text-shadow: #11ee5e 0 0 10px;
-  }
-  25% {
-    text-shadow: #f14747 0 0 10px;
-  }
-  37.5% {
-    text-shadow: #f1a247 0 0 10px;
-  }
-  50% {
-    text-shadow: #f1ee47 0 0 10px;
-  }
-  50% {
-    text-shadow: #b347f1 0 0 10px;
-  }
-  62.5% {
-    text-shadow: #002afa 0 0 10px;
-  }
-  75% {
-    text-shadow: #ed709b 0 0 10px;
-  }
-  87.5% {
-    text-shadow: #39c5bb 0 0 10px;
-  }
-  100% {
-    text-shadow: #5636ed 0 0 10px;
-  }
-}
-
-@keyframes light_5px {
-  0% {
-    text-shadow: #5636ed 0 0 5px;
-  }
-  12.5% {
-    text-shadow: #11ee5e 0 0 5px;
-  }
-  25% {
-    text-shadow: #f14747 0 0 5px;
-  }
-  37.5% {
-    text-shadow: #f1a247 0 0 15px;
-  }
-  50% {
-    text-shadow: #f1ee47 0 0 5px;
-  }
-  50% {
-    text-shadow: #b347f1 0 0 5px;
-  }
-  62.5% {
-    text-shadow: #002afa 0 0 5px;
-  }
-  75% {
-    text-shadow: #ed709b 0 0 5px;
-  }
-  87.5% {
-    text-shadow: #39c5bb 0 0 5px;
-  }
-  100% {
-    text-shadow: #5636ed 0 0 5px;
-  }
-}
-
 /* 侧边栏个人信息卡片动态渐变色 */
-#aside-content > .card-widget.card-info {
+/* #aside-content > .card-widget.card-info {
   background: linear-gradient(
     -45deg,
     #e8d8b9,
@@ -442,7 +408,7 @@ svg.icon {
   -webkit-animation: Gradient 10s ease infinite;
   -moz-animation: Gradient 10s ease infinite;
   animation: Gradient 10s ease infinite !important;
-}
+} */
 @-webkit-keyframes Gradient {
   0% {
     background-position: 0% 50%;
@@ -687,7 +653,7 @@ h6::before {
 /* 设置风车颜色 */
 #content-inner.layout h1::before {
   color: #ef50a8;
-  margin-left: -1.55rem;
+  /* margin-left: -1.55rem; */
   font-size: 1.3rem;
   margin-top: -0.23rem;
 }
@@ -699,25 +665,25 @@ h6::before {
 }
 #content-inner.layout h3::before {
   color: #ffbf00;
-  margin-left: -1.22rem;
+  /* margin-left: -1.22rem; */
   font-size: 0.95rem;
   margin-top: -0.09rem;
 }
 #content-inner.layout h4::before {
   color: #a9e000;
-  margin-left: -1.05rem;
+  /* margin-left: -1.05rem; */
   font-size: 0.8rem;
   margin-top: -0.09rem;
 }
 #content-inner.layout h5::before {
   color: #57c850;
-  margin-left: -0.9rem;
+  /* margin-left: -0.9rem; */
   font-size: 0.7rem;
   margin-top: 0rem;
 }
 #content-inner.layout h6::before {
   color: #5ec1e0;
-  margin-left: -0.9rem;
+  /* margin-left: -0.9rem; */
   font-size: 0.66rem;
   margin-top: 0rem;
 }
@@ -775,13 +741,13 @@ h6::before {
 }
 @keyframes huxi_dark {
   0% {
-    box-shadow: 0px 0px 1px 1px #39c5bb;
+    box-shadow: 0px 0px 1px 1px #49b1f5;
   }
   50% {
-    box-shadow: 0px 0px 5px 5px #39c5bb;
+    box-shadow: 0px 0px 5px 5px #49b1f5;
   }
   100% {
-    box-shadow: 0px 0px 1px 1px #39c5bb;
+    box-shadow: 0px 0px 1px 1px #49b1f5;
   }
 }
 
@@ -789,7 +755,7 @@ h6::before {
 /* 标题增强 */
 #site-name::before {
   opacity: 0;
-  background-color: var(--theme-color) !important;
+  /* background-color: var(--theme-color) !important; */
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -806,20 +772,21 @@ h6::before {
   width: 100%;
   height: 100%;
   content: "\f015";
-  box-shadow: 0 0 5px var(--theme-color);
+  background-color: #49b1f5;
   font-family: "Font Awesome 6 Free";
   text-align: center;
   color: white;
-  line-height: 34px; /*如果有溢出或者垂直不居中的现象微调一下这个参数*/
+  line-height: 40px; /*如果有溢出或者垂直不居中的现象微调一下这个参数*/
   font-size: 18px; /*根据个人喜好*/
 }
+
 #site-name:hover::before {
   opacity: 1;
   scale: 1.03;
 }
 #site-name {
   position: relative;
-  font-size: 1.3em; /*一定要把字体调大点，否则效果惨不忍睹！*/
+  font-size: 1.5em; /*一定要把字体调大点，否则效果惨不忍睹！*/
 }
 
 /* 顶栏常驻 */
@@ -875,7 +842,7 @@ h6::before {
 }
 #page-name {
   position: relative;
-  padding: 10px 30px; /*如果文字间隔不合理可以微调修改，第二个是水平方向的padding，第一个是垂直的*/
+  padding: 10px 80px; /*如果文字间隔不合理可以微调修改，第二个是水平方向的padding，第一个是垂直的*/
 }
 #nav{
     padding: 0 20px;
@@ -885,7 +852,7 @@ h6::before {
 center#name-container {
   position: absolute !important;
   width: fit-content !important;
-  left: 42% !important;
+  left: 41% !important;
 }
 @media screen and (max-width: 768px) {
   center#name-container {
@@ -899,3 +866,132 @@ center#name-container {
 }
 
 /*--------------------------- 导航栏增强 end ----------------------------*/
+
+
+/* 头像动效 */
+.card-info-avatar .author-status-box {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% - 28px);
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d0d7de;
+  border-radius: 2em;
+  background-color: #f8f8f8f8;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .card-info-avatar .author-status-box {
+  background-color: #222222f2;
+  border: 1px solid #5c6060;
+}
+
+.card-info-avatar .author-status-box .author-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 5px;
+}
+
+.card-info-avatar .author-status-box:hover {
+  width: 105px;
+}
+
+.card-info-avatar .author-status-box:hover .author-status span {
+  width: 105px;
+  margin-left: 4px;
+}
+
+.card-info-avatar .author-status-box .author-status span {
+  width: 0;
+  font-size: 12px;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: 0.4s;
+}
+
+.card-widget .card-info-avatar {
+  display: inline-block;
+  position: relative;
+}
+
+/* 波浪css ----------------------------------- start*/
+.main-hero-waves-area {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -11px;
+  z-index: 5;
+}
+.waves-area .waves-svg {
+  width: 100%;
+  height: 5rem;
+}
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #f7f9febd;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #f7f9fe82;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #f7f9fe36;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #f7f9fe;
+}
+/* 黑色模式背景 */
+[data-theme="dark"] .parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+  fill: #18171dc8;
+}
+[data-theme="dark"] .parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+  fill: #18171d80;
+}
+[data-theme="dark"] .parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+  fill: #18171d3e;
+}
+[data-theme="dark"] .parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+  fill: #18171d;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves-area .waves-svg {
+    height: 40px;
+    min-height: 40px;
+  }
+}
+
+/* 波浪css ----------------------------------- end */
