@@ -1489,7 +1489,7 @@ table td {
   vertical-align: middle;
 }
 *::selection {
-  background: #00c4b6;
+  background: #49b1f5;
   color: #f7f7f7;
 }
 button {
@@ -3005,7 +3005,7 @@ h1.page-title + .tag-cloud-list {
   color: #49b1f5;
 }
 #aside-content #card-toc .toc-content .toc-link.active {
-  background: #00c4b6;
+  background: #49b1f5;
   color: #fff;
 }
 #aside-content .sticky_layout:only-child > :first-child {
@@ -3525,7 +3525,8 @@ h1.page-title + .tag-cloud-list {
 #page-header #post-info {
   position: absolute;
   width: 100%;
-  bottom: 30px;
+  text-align: center;
+  bottom: 100px;
 }
 #page-header #post-info > * {
   margin: 0 auto;

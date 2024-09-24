@@ -852,7 +852,7 @@ h6::before {
 center#name-container {
   position: absolute !important;
   width: fit-content !important;
-  left: 41% !important;
+  left: 42% !important;
 }
 @media screen and (max-width: 768px) {
   center#name-container {
@@ -861,9 +861,9 @@ center#name-container {
 }
 
 /* 导航栏右面图标黑白夜开关等*/
-#nightmode-button {
+/* #nightmode-button {
   padding-left: 12px;
-}
+} */
 
 /*--------------------------- 导航栏增强 end ----------------------------*/
 
