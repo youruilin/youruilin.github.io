@@ -4,25 +4,6 @@
   
     
     <entry>
-      <title>第3篇文章</title>
-      <link href="/posts/60173e82/"/>
-      <url>/posts/60173e82/</url>
-      
-        <content type="html"><![CDATA[<h2 id="这是我的第3篇文章"><a href="#这是我的第3篇文章" class="headerlink" title="这是我的第3篇文章"></a>这是我的第3篇文章</h2>]]></content>
-      
-      
-      <categories>
-          
-          <category> 3_blog </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>第2篇文章</title>
       <link href="/posts/8fd555bc/"/>
       <url>/posts/8fd555bc/</url>
@@ -33,6 +14,25 @@
       <categories>
           
           <category> test_blog </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>第3篇文章</title>
+      <link href="/posts/60173e82/"/>
+      <url>/posts/60173e82/</url>
+      
+        <content type="html"><![CDATA[<h2 id="这是我的第3篇文章"><a href="#这是我的第3篇文章" class="headerlink" title="这是我的第3篇文章"></a>这是我的第3篇文章</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> 3_blog </category>
           
       </categories>
       

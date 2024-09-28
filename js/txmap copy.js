@@ -222,32 +222,22 @@ function showWelcome() {
       //自定义文本和需要放的位置
       document.getElementById("welcome-info").innerHTML =
           `<b><center>🎉 欢迎信息 🎉</center>&emsp;&emsp;欢迎来自 <span style="color:var(--theme-color)">${pos}</span> 的小伙伴，${timeChange}您现在距离站长约 <span style="color:var(--theme-color)">${dist}</span> 公里，当前的IP地址为： <span style="color:var(--theme-color)">${ip}</span>， ${posdesc}</b>`;    
-
-        // 判断本地存储中是否已经显示过提示信息
-        if (!sessionStorage.getItem('hasShownNotification')) {
-            setTimeout(function(){
-                debounce(function () {
-                    new Vue({  
-                        data: function () {
-                            this.$notify({
-                                title: "おはよう！😜",
-                                message: `${welcomeInfo}`,
-                                position: 'top-left',
-                                offset: 50,
-                                showClose: true,
-                                type: "warning",
-                                duration: 5000
-                            });
-                        }
-                    });
-                    // 设置标志位，表示已经显示过提示
-                    sessionStorage.setItem('hasShownNotification', 'true');
-                }, 1500)();
-            },2000)
-            
-        }
-        
-
+    
+      debounce(function () {
+        new Vue({
+            data: function () {
+            this.$notify({
+                title: "おはよう！😜",
+                message: `${welcomeInfo}`,
+                position: 'top-left',
+                offset: 50,
+                showClose: true,
+                type: "warning",
+                duration: 5000
+            });
+            }
+        })
+        }, 2000);
     } catch (err) {
     // console.log("Pjax无法获取#welcome-info元素🙄🙄🙄")
   }
