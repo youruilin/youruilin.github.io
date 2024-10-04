@@ -9,7 +9,7 @@ $.ajax({
   dataType: 'jsonp',
   success: function (res) {
       ipLoacation = res;
-      console.log(res)
+      console.log(res,'ip地址')
       
   }
 })
