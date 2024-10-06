@@ -226,23 +226,21 @@ function showWelcome() {
         // 判断本地存储中是否已经显示过提示信息
         if (!sessionStorage.getItem('hasShownNotification')) {
             setTimeout(function(){
-                debounce(function () {
-                    new Vue({  
-                        data: function () {
-                            this.$notify({
-                                title: "おはよう！😜",
-                                message: `${welcomeInfo}`,
-                                position: 'top-left',
-                                offset: 50,
-                                showClose: true,
-                                type: "warning",
-                                duration: 5000
-                            });
-                        }
-                    });
-                    // 设置标志位，表示已经显示过提示
-                    sessionStorage.setItem('hasShownNotification', 'true');
-                }, 1500)();
+                new Vue({  
+                    data: function () {
+                        this.$notify({
+                            title: "おはよう！😜",
+                            message: `${welcomeInfo}`,
+                            position: 'top-left',
+                            offset: 50,
+                            showClose: true,
+                            type: "warning",
+                            duration: 5000
+                        });
+                    }
+                });
+                // 设置标志位，表示已经显示过提示
+                sessionStorage.setItem('hasShownNotification', 'true');
             },2000)
             
         }
