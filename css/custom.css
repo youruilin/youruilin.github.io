@@ -767,8 +767,9 @@ h6::before {
   font-family: "Font Awesome 6 Free";
   text-align: center;
   color: white;
-  line-height: 40px; /*如果有溢出或者垂直不居中的现象微调一下这个参数*/
+  line-height: 42px; /*如果有溢出或者垂直不居中的现象微调一下这个参数*/
   font-size: 18px; /*根据个人喜好*/
+  transform: translateX(2px); /* 根据实际情况微调 */
 }
 
 #site-name:hover::before {
