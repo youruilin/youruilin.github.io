@@ -833,21 +833,28 @@ h6::before {
 }
 #page-name {
   position: relative;
-  padding: 10px 80px; /*如果文字间隔不合理可以微调修改，第二个是水平方向的padding，第一个是垂直的*/
+  padding: 10px 30px; 
 }
-#nav{
+/* #nav{
     padding: 0 20px;
-}
+} */
 
 /* 修复滚动显示标题居中 */
 center#name-container {
   position: absolute !important;
   width: fit-content !important;
-  left: 42% !important;
+  left: 50%!important;
+  transform: translateX(-50%)!important
 }
-@media screen and (max-width: 768px) {
-  center#name-container {
-    display: none;
+
+/* 置顶滚动栏电脑端样式，手机端用默认的 */
+@media screen and (min-width: 600px) {
+  .blog-slider {
+    height: 260px !important;
+  }
+  .blog-slider__img {
+    width: 240px !important;
+    height: 100% !important;
   }
 }
 
