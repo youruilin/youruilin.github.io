@@ -1,0 +1,35 @@
+.tooltip {
+  color: rgb(11, 193, 253);
+  position: relative;
+  cursor: pointer;
+}
+
+.folding-tag .content {
+  padding-left: 10px!important;
+}
+
+.highlight-text {
+  color: var(--article-theme-color);
+  font-weight: 500;
+}
+/* .tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 16px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+} */
+
+/* .tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+} */
