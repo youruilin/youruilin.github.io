@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="[&quot;ja&quot;,&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><style>:root {
+  --article-theme-color: #e5a80d;
+}</style><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>proxmox安装ubuntu+openwrt全过程记录 | iooio_blog</title><meta name="author" content="游瑞林"><meta name="copyright" content="游瑞林"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content=".ai-summary-active .ai-summary-icon-title text:first-of-type {         display: none !important;       }        .ai-summary-active .ai-summary-icon-title text:last-child {         disp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="proxmox安装ubuntu+openwrt全过程记录">
+<meta property="og:url" content="https://youruilin.github.io/posts/3acd2171/index.html">
+<meta property="og:site_name" content="iooio_blog">
+<meta property="og:description" content=".ai-summary-active .ai-summary-icon-title text:first-of-type {         display: none !important;       }        .ai-summary-active .ai-summary-icon-title text:last-child {         disp">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://youruilin.github.io/img/butterfly-icon.webp">
+<meta property="article:published_time" content="2025-07-06T00:44:38.000Z">
+<meta property="article:modified_time" content="2025-07-12T14:30:00.000Z">
+<meta property="article:author" content="游瑞林">
+<meta property="article:tag" content="虚拟机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youruilin.github.io/img/butterfly-icon.webp"><link rel="shortcut icon" href="/img/favicon_io/android-chrome-192x192.png"><link rel="canonical" href="https://youruilin.github.io/posts/3acd2171/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = true
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"${query} の検索結果が見つかりませんでした。","hits_stats":"${hits} 件の記事が見つかりました"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'コピー成功',
+    error: 'コピー失敗',
+    noSupport: 'ブラウザが対応していません'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '日',
+  dateSuffix: {
+    just: 'たった今',
+    min: '分前',
+    hour: '時間前',
+    day: '日前',
+    month: 'ヶ月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"繁体字に切り替えました","cht_to_chs":"簡体字に切り替えました","day_to_night":"ダークモードに切り替えました","night_to_day":"ライトモードに切り替えました","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'もっと見る'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'proxmox安装ubuntu+openwrt全过程记录',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-07-12 14:30:00'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4684778_zddxn068xgp.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/theme-chalk/index.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/progress_bar.css" media="defer" onload="this.media='all'"><span id="fps"></span><link rel="stylesheet" href="/css/tooltip.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="an_music_bg">    </div><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/youruilin/pic_bed/main/bcg_img/index_test.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/butterfly-icon.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">記事</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">タグ</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">カテゴリ</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-home faa-tada"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-home faa-tada"></i><span> 首页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="fa-fw fas fa-tags faa-tada"></i><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="fa-fw fas fa-folder-open faa-tada"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw fas fa-link faa-tada"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat faa-tada"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="fa-fw fas fa-music faa-tada"></i><span> 音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/Gallery/"><i class="fa-fw fas fa-images faa-tada"></i><span> 照片</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/movies/"><i class="fa-fw fas fa-video faa-tada"></i><span> 电影</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="fa-fw fas fa-laptop faa-tada"></i><span> 我的装备</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw fas fa-heart faa-tada"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-language faa-tada"></i><span> 语言</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-c faa-tada"></i><span> 中文</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/jp/"><i class="fa-fw fas fa-j faa-tada"></i><span> 日本語</span></a></li><li><a class="site-page child faa-parent animated-hover" target="_blank" rel="noopener" href="https://butterfly.js.org/en/"><i class="fa-fw fas fa-e faa-tada"></i><span> English</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="iooio_blog"><span id="site-name">iooio_blog</span></a><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon fas fa-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://youruilin.github.io/Hexo_nav/" title="前往个人导航" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/original/03/a7/945ec4715b14d857227aa23429f7.webp"/><span class="back-menu-item-text">个人导航</span></a><a class="back-menu-item" href="/" rel="external nofollow" title="博客主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/original/27/37/cba78cfecaff456df3d2f40a4ded.webp" style="width: 30px; height: 30px;"/><span class="back-menu-item-text">博客主页</span></a><a class="back-menu-item" href="https://youruilin.github.io/index_blog/" rel="external nofollow" title="前往个人主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img02.anheyu.com/adminuploads/1/2022/04/27/6268e7d9de532.png"/><span class="back-menu-item-text">个人主页</span></a><a class="back-menu-item" href="https://lychee.iooio.cn/" rel="external nofollow" title="lychee" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/original/3d/44/667fa779ad75e6062e263075a028.webp"/><span class="back-menu-item-text">lychee图床</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="/" title="前往博客主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/original/3e/33/45b5e9c7796e9940d0351db5aeb5.webp"/><span class="back-menu-item-text">博客</span></a></div></div></div></div></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-home faa-tada"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-home faa-tada"></i><span> 首页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="fa-fw fas fa-tags faa-tada"></i><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="fa-fw fas fa-folder-open faa-tada"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw fas fa-link faa-tada"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat faa-tada"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="fa-fw fas fa-music faa-tada"></i><span> 音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/Gallery/"><i class="fa-fw fas fa-images faa-tada"></i><span> 照片</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/movies/"><i class="fa-fw fas fa-video faa-tada"></i><span> 电影</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="fa-fw fas fa-laptop faa-tada"></i><span> 我的装备</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw fas fa-heart faa-tada"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-language faa-tada"></i><span> 语言</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-c faa-tada"></i><span> 中文</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/jp/"><i class="fa-fw fas fa-j faa-tada"></i><span> 日本語</span></a></li><li><a class="site-page child faa-parent animated-hover" target="_blank" rel="noopener" href="https://butterfly.js.org/en/"><i class="fa-fw fas fa-e faa-tada"></i><span> English</span></a></li></ul></div></div><center id="name-container"><a id="page-name" href="javascript:scrollToTop()">PAGE_NAME</a></center><div id="nav-right"><div id="search-button"><a class="search faa-parent animated-hover" title="检索站内任何你想要的信息"><svg class="faa-tada icon" style="height:23px;width:23px;fill:currentColor;position:relative;top:4px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg></a></div><a class="meihua faa-parent animated-hover" onclick="toRandomPost()" title="随机跳转一篇文章" id="meihua-button"><svg class="faa-tada icon" style="height:26px;width:26px;fill:currentColor;position:relative;top:6px" aria-hidden="true"><use xlink:href="#icon-feijix"></use></svg></a><a class="sun_moon faa-parent animated-hover" onclick="switchNightMode()" title="ライトモード/ダークモード切り替え" id="nightmode-button"><svg class="faa-tada" style="height:24px;width:24px;fill:currentColor;position:relative;top:8px" aria-hidden="true"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a><i class="fas fa-bars fa-fw"></i></a></div></div></div></nav><div id="post-info"><h1 class="post-title">proxmox安装ubuntu+openwrt全过程记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">作成日</span><time class="post-meta-date-created" datetime="2025-07-06T00:44:38.000Z" title="作成日 2025-07-06 00:44:38">2025-07-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新日</span><time class="post-meta-date-updated" datetime="2025-07-12T14:30:00.000Z" title="更新日 2025-07-12 14:30:00">2025-07-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">総文字数:</span><span class="word-count">4996</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">読む時間:</span><span>19分</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" href="/hexo-ai-summaries/gemini.css">
+<div class="post-gemini-ai">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="126" height="20" role="img" class="ai-summary-trigger">
+    <style>
+      .ai-summary-active .ai-summary-icon-title text:first-of-type {
+        display: none !important;
+      }
+
+      .ai-summary-active .ai-summary-icon-title text:last-child {
+        display: initial !important;
+      }
+
+      .ai-summary-active #r rect {
+        width: 105px !important;
+      }
+
+      .ai-summary-active .ai-summary-rect {
+        width: 80px !important;
+      }
+
+      .ai-summary-pen {
+        opacity: 1;
+        animation: ai-wink 2s infinite;
+      }
+
+      @keyframes ai-wink {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+    <linearGradient id="s" x2="0" y2="100%">
+      <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+      <stop offset="1" stop-opacity=".1" />
+    </linearGradient>
+    <clipPath id="r">
+      <rect width="125" height="20" rx="3" fill="#fff" />
+    </clipPath>
+    <g clip-path="url(#r)">
+      <rect width="25" height="20" fill="#555" />
+      <rect class="ai-summary-rect" x="25" width="100" height="20" fill="#007ec6" />
+      <rect width="25" height="20" fill="url(#s)" />
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110" class="ai-summary-icon-title">
+      <image class="ai-summary-pen" x="5" y="3" width="14" height="14" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im0yMS42NCAzLjY0bC0xLjI4LTEuMjhhMS4yMSAxLjIxIDAgMCAwLTEuNzIgMEwyLjM2IDE4LjY0YTEuMjEgMS4yMSAwIDAgMCAwIDEuNzJsMS4yOCAxLjI4YTEuMiAxLjIgMCAwIDAgMS43MiAwTDIxLjY0IDUuMzZhMS4yIDEuMiAwIDAgMCAwLTEuNzJNMTQgN2wzIDNNNSA2djRtMTQgNHY0TTEwIDJ2Mk03IDhIM20xOCA4aC00TTExIDNIOSIvPjwvc3ZnPg==" />
+      <text x="750" y="140" transform="scale(.1)" fill="#fff" textLength="900">ai-要約を取得</text>
+      <text style="display: none" x="650" y="140" transform="scale(.1)" fill="#fff" textLength="600">文章摘要</text>
+    </g>
+  </svg>
+</div>
+<script src="/hexo-ai-summaries/gemini.js"></script>
+<h2 id="大致思路"><a href="#大致思路" class="headerlink" title="大致思路"></a>大致思路</h2><p>年青的时候不懂，为软路由安排了严重过剩的配置：</p>
+<p>3865u 工控机，4g ddr4 2666 (实际cpu仅支持2133)，msata 固态128g.. 全铝合金无风扇散热、工业级防尘设计  /</p>
+<p>因为amazon ec2 免费实例的性能非常底下，且硬盘仅10g，用来部署后端服务非常吃力，于是想到将性能严重过剩的软路由重新设计为：使用proxmox做基系统，使用虚拟机安装openwrt和ubuntu系统。</p>
+<h2 id="前戏准备"><a href="#前戏准备" class="headerlink" title="前戏准备"></a>前戏准备</h2><details class="folding-tag" ><summary> 安装pve </summary>
+              <div class='content'>
+              <p>✅ 一、准备工作</p><ol><li><p>下载 Proxmox VE 安装镜像</p><ul><li>官方下载地址：<br>👉 <a target="_blank" rel="noopener" href="https://www.proxmox.com/en/downloads/category/iso-images-pve">https://www.proxmox.com/en/downloads/category/iso-images-pve</a><br>推荐版本：<code>Proxmox VE 8.x</code>（基于 Debian 12）</li></ul></li><li><p>准备 U 盘启动盘</p><ul><li>U 盘大小：建议 ≥ 2GB</li><li>制作启动盘工具：</li><li><strong>Rufus</strong>（Windows）：<a target="_blank" rel="noopener" href="https://rufus.ie/zh/">https://rufus.ie/zh/</a> （已验证免费）</li><li><strong>balenaEtcher</strong>（Mac/Linux 也可用）：<a target="_blank" rel="noopener" href="https://www.balena.io/etcher/">https://www.balena.io/etcher/</a></li></ul></li><li><p>备份重要数据</p><ul><li>Proxmox 会<strong>清空整块硬盘</strong>安装系统，请确认磁盘已备份或空盘。</li></ul></li></ol><hr><p>✅ 二、安装步骤（图形化安装）</p><ol><li><p>启动安装器</p><ul><li>将写好 Proxmox 的 U 盘插入电脑</li><li>开机按 <code>F2/F10/ESC/Delete</code> 进入 BIOS，设置 <strong>U盘启动</strong></li></ul><p>坑爹预警！！也许是工控机主板比较老，当安装完毕后，重启机器后，会立刻检测usb键盘设备，如没有检测到（例如廉价9.9包邮键盘），直接卡死在开机前的阶段，并不会正常的进入系统，导致在工作台上无数次测试均正常，移至机房却N多次启动失败。</p><p>最终在工作台前的反复测试时，意外的发现此规律！！</p><p>应该会记住此次教训！毕竟9.9包邮的廉价键盘，在bios阶段根本无法正常被识别！！</p><ul><li>启动后看到 <code>Install Proxmox VE</code>，选择回车继续</li></ul></li><li><p>安装向导步骤</p></li></ol><div class="table-container"><table><thead><tr><th>步骤</th><th>设置项</th><th>说明</th></tr></thead><tbody><tr><td>第一步</td><td>同意协议</td><td>点击“我同意”</td></tr><tr><td>第二步</td><td>选择磁盘</td><td>选中你的 SSD（通常是 <code>/dev/sda</code>）</td></tr><tr><td>第三步</td><td>设置国家/时区/键盘</td><td>设置为 <code>Asia/Shanghai</code> 或你所在地区</td></tr><tr><td>第四步</td><td>设置管理员密码</td><td>用于 Web UI 登录，不可丢失</td></tr><tr><td>第五步</td><td>设置网络</td><td>推荐设置固定 IP，或 DHCP（后续也能修改）</td></tr></tbody></table></div><p>安装完成后重启</p><ul><li>拔掉 U 盘</li><li>系统会自动进入 Proxmox 管理界面</li></ul>
+              </div>
+            </details>
+<details class="folding-tag" ><summary> proxmox的清华大学源 </summary>
+              <div class='content'>
+              <p>✅ 步骤一：确认当前 Proxmox 使用的是哪个源</p><p>你可以运行下面的命令来列出所有启用的源：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">grep -r ^deb /etc/apt/</span><br></pre></td></tr></table></figure><p>然后得到：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@proxmox:~# grep -r ^deb /etc/apt/</span><br><span class="line">/etc/apt/sources.list.d/pve-enterprise.list:deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise</span><br><span class="line">/etc/apt/sources.list.d/ceph.list:deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise</span><br><span class="line">/etc/apt/sources.list.bak:deb http://ftp.debian.org/debian bookworm main contrib</span><br><span class="line">/etc/apt/sources.list.bak:deb http://ftp.debian.org/debian bookworm-updates main contrib</span><br><span class="line">/etc/apt/sources.list.bak:deb http://security.debian.org bookworm-security main contrib</span><br><span class="line">/etc/apt/sources.list:deb http://ftp.debian.org/debian bookworm main contrib</span><br><span class="line">/etc/apt/sources.list:deb http://ftp.debian.org/debian bookworm-updates main contrib</span><br><span class="line">/etc/apt/sources.list:deb http://security.debian.org bookworm-security main contrib</span><br><span class="line">root@proxmox:~# </span><br></pre></td></tr></table></figure><p>这说明：</p><p>🔍 当前使用情况总结：</p><div class="table-container"><table><thead><tr><th>文件</th><th>当前内容</th><th>建议</th></tr></thead><tbody><tr><td><code>/etc/apt/sources.list</code></td><td>Debian 官方主源：<code>ftp.debian.org</code> 和 <code>security.debian.org</code></td><td>✅ 可改为清华镜像，加快速度</td></tr><tr><td><code>/etc/apt/sources.list.d/pve-enterprise.list</code></td><td>Proxmox 企业源（需订阅）</td><td>❌ 建议禁用（否则 apt 会报 401 错误）</td></tr><tr><td><code>/etc/apt/sources.list.d/ceph.list</code></td><td>企业版 Ceph 源</td><td>❌ 同样不适用于无订阅用户</td></tr></tbody></table></div><hr><p>✅ 接下来你可以这样操作：</p><hr><p>✅ 第一步：禁用企业源</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /etc/apt/sources.list.d/pve-enterprise.list /etc/apt/sources.list.d/pve-enterprise.list.disabled</span><br><span class="line">mv /etc/apt/sources.list.d/ceph.list /etc/apt/sources.list.d/ceph.list.disabled</span><br></pre></td></tr></table></figure><p>然后，可以直接用命令写入文件，避免格式问题：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &lt;&lt; EOF &gt; /etc/apt/sources.list</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free non-free-firmware</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free non-free-firmware</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure><p>以及，更改的 Proxmox VE 的“无订阅”（社区免费版）软件源：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &quot;deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian/pve bookworm pve-no-subscription&quot; &gt; /etc/apt/sources.list.d/pve-no-subscription.list</span><br></pre></td></tr></table></figure><p>二者针对的是 <strong>不同的软件源类型</strong>，它们各自负责系统中不同的软件包管理：</p><hr><div class="table-container"><table><thead><tr><th>操作命令</th><th>作用对象</th><th>说明</th></tr></thead><tbody><tr><td>修改 <code>/etc/apt/sources.list</code></td><td><strong>Debian 操作系统主源</strong></td><td>负责管理系统底层软件和通用依赖包，保证 Debian 系统核心和常用软件包的安装和更新。 你改成清华镜像是为了加速和稳定访问。</td></tr><tr><td>修改 <code>/etc/apt/sources.list.d/pve-no-subscription.list</code></td><td><strong>Proxmox VE 专用源（社区免费版）</strong></td><td>负责管理 Proxmox VE 特有的软件包和功能（虚拟化管理工具等）。 无订阅用户使用该社区源，且改为清华镜像加速下载。</td></tr></tbody></table></div><hr><p>简单理解：</p><ul><li>Debian 源 是系统“基础包”的来源，类似操作系统的软件仓库</li><li>Proxmox 源 是专门针对 Proxmox 虚拟化环境的软件仓库</li></ul><p>两者都需要配置正确，系统才能既保持稳定的 Debian 基础环境，也能正常获取 Proxmox 相关软件更新。</p><p>完成后执行：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt update</span><br></pre></td></tr></table></figure><p>确认无报错后就配置好了。</p>
+              </div>
+            </details>
+<h2 id="ubuntu的清华大学源"><a href="#ubuntu的清华大学源" class="headerlink" title="ubuntu的清华大学源"></a>ubuntu的清华大学源</h2><details class="folding-tag" ><summary> 点击查看详情 </summary>
+              <div class='content'>
+              <p>长期支持版本：<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/">https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/</a></p><p>安装完成后，需要更改软件源，步骤如下：</p><p>✅ 更换为清华源的步骤（Ubuntu 22.04）</p><p>你可以按以下步骤操作：</p><ol><li>备份原有源列表</li></ol><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure><hr><ol><li>编辑源列表文件</li></ol><p>使用 nano（或你喜欢的编辑器）：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/apt/sources.list</span><br></pre></td></tr></table></figure><hr><ol><li>替换为清华源内容（适用于 Ubuntu 22.04 “jammy”）</li></ol><p>将内容全部替换为以下内容：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br></pre></td></tr></table></figure><p>由于不好粘贴，可以这样：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/apt/sources.list &gt; /dev/null &lt;&lt; EOF</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure><p>这样就一步到位了！！</p><hr><ol><li>更新软件列表</li></ol><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+              </div>
+            </details>
+<h2 id="开始折腾"><a href="#开始折腾" class="headerlink" title="开始折腾"></a>开始折腾</h2><details class="folding-tag" ><summary> 点击查看详情 </summary>
+              <div class='content'>
+              <p>到这里，就可以使用 finalshell 登录了，因为之前从github拉取了公钥，需要携带私钥进行登录。</p><p>先安装个lychee图床试试：</p><ol><li><p>先安装docker：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install docker.io</span><br></pre></td></tr></table></figure></li><li><p>配置docker镜像源</p><p><strong>步骤1：创建配置文件</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker  </span><br><span class="line">sudo vim /etc/docker/daemon.json</span><br></pre></td></tr></table></figure><p><strong>步骤2：添加镜像源（推荐）</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo tee /etc/docker/daemon.json &gt; /dev/null &lt;&lt;EOF</span><br><span class="line">&#123;  </span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://docker.xuanyuan.me&quot;]  </span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure><p><strong>步骤3：重启服务</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl daemon-reload  </span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure></li><li><p>然后，运行以下命令：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">  --name=lychee \</span><br><span class="line">  --memory=&quot;300m&quot; \</span><br><span class="line">  -v /opt/docker/lychee/conf:/conf \</span><br><span class="line">  -v /opt/docker/lychee/uploads:/uploads \</span><br><span class="line">  -v /opt/docker/lychee/sym:/sym \</span><br><span class="line">  -e PUID=1000 \</span><br><span class="line">  -e PGID=1000 \</span><br><span class="line">  -e PHP_TZ=America/New_York \</span><br><span class="line">  -e TIMEZONE=America/New_York \</span><br><span class="line">  -e DB_CONNECTION=mysql \</span><br><span class="line">  -e DB_HOST=35.164.210.202 \</span><br><span class="line">  -e DB_PORT=3306 \</span><br><span class="line">  -e DB_DATABASE=lychee \</span><br><span class="line">  -e DB_USERNAME=iooio \</span><br><span class="line">  -e DB_PASSWORD=5320di \</span><br><span class="line">  -e APP_URL=http://192.168.5.229:90 \</span><br><span class="line">  -e APP_FORCE_HTTPS=false \</span><br><span class="line">  -e TRUSTED_PROXIES=* \</span><br><span class="line">  -p 90:80 \</span><br><span class="line">  lycheeorg/lychee</span><br></pre></td></tr></table></figure></li><li><p>执行<code>docker ps</code>：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@proxmoxubuntu:~# docker ps</span><br><span class="line">CONTAINER ID   IMAGE              COMMAND                  CREATED          STATUS                    PORTS                                 NAMES</span><br><span class="line">ef1b2448d3ac   lycheeorg/lychee   &quot;/entrypoint.sh nginx&quot;   51 seconds ago   Up 49 seconds (healthy)   0.0.0.0:90-&gt;80/tcp, [::]:90-&gt;80/tcp   lychee</span><br><span class="line">root@proxmoxubuntu:~# </span><br></pre></td></tr></table></figure></li></ol><p>然后常出现了一个扯淡的现象：lychee仅能加载远程mysql中的模糊缩略图</p><p>ChatGPT 说：</p><p>其实这里涉及几个关键点，需要理清：</p><hr><ol><li><p>MySQL 数据库里<strong>并不直接存储图片文件</strong></p><ul><li>MySQL 里存的是图片的<strong>元数据和文件路径</strong>（比如文件名、路径、缩略图路径等）。</li><li><strong>图片本身是存放在 Lychee 服务器的文件系统里的</strong>，数据库只存文件位置或索引。</li></ul></li><li><p>Lychee 访问图片是通过 Web 服务器直接读取本地磁盘文件</p><ul><li>当浏览器访问图片时，请求会发送到运行 Lychee 的服务器（即 Web 服务器）。</li><li>服务器根据数据库中图片路径，直接去本地文件系统读取对应图片文件，再返回给浏览器。</li><li>数据库只是告诉 Lychee 图片存在“哪儿”，而不是把图片内容从数据库传出来。</li></ul></li><li><p>为什么“远程 MySQL”依然能正常显示图片？</p><ul><li>远程 MySQL 只是一个数据库服务，它保存路径和索引，Lychee 服务器连接它取数据。</li><li><strong>关键是图片文件必须在 Lychee 服务器上（Web 服务器上）存在</strong>。</li><li>只要 Lychee 服务器能通过网络连接远程 MySQL，查询到图片路径，且图片文件在本地目录，图片显示就正常。</li></ul></li><li><p>缩略图为什么也能显示？</p><ul><li>缩略图和原图一样，都是存成文件，路径存数据库。</li><li>Lychee 根据数据库里的缩略图路径，访问本地文件系统对应文件。</li><li>远程数据库不影响文件的实际读取。</li></ul></li><li><p>如果图片文件和数据库不在同一服务器，图片无法显示的原因</p><ul><li>如果 Lychee 服务器本地没有对应图片文件（不管数据库是本地还是远程），请求图片时会 404。</li><li>数据库远程，只要网络连通和权限正常，查询路径没问题，能拿到文件路径；<br>但文件系统没图片，访问就失败。</li></ul></li></ol><hr><p>简单总结：</p><div class="table-container"><table><thead><tr><th>作用</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td>MySQL 数据库</td><td>远程服务器</td><td>存储图片路径、文件名、元数据</td></tr><tr><td>图片文件</td><td>Lychee 服务器本地磁盘</td><td>真实图片和缩略图存放位置</td></tr><tr><td>浏览器访问图片</td><td>Lychee 服务器（Web 服务器）</td><td>根据数据库路径读取本地文件，返回给客户端</td></tr></tbody></table></div><hr><p>如果你希望图片和数据库分开，必须保证：</p><ul><li><strong>图片文件实际存储在 Lychee 服务器可访问的本地目录，且路径对应数据库路径。</strong></li><li>或者通过网络文件系统（NFS/SMB等）把远程图片目录挂载到 Lychee 服务器。</li></ul><p>lychee图床需要和数据库部署在一起</p><p>否则加载非常慢！！</p><p>现在本地安装数据库试试：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 更新系统包</span><br><span class="line">sudo apt update</span><br><span class="line"># 会根据你本机当前配置的软件源，把所有已安装的包升级到软件源中提供的最新版本。</span><br><span class="line">sudo apt upgrade </span><br><span class="line"></span><br><span class="line"># 安装nvm</span><br><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash</span><br><span class="line"></span><br><span class="line"># 安装完成后，按照输出的提示重启终端，或者手动运行以下命令来加载 nvm：</span><br><span class="line">source ~/.bashrc</span><br><span class="line"></span><br><span class="line">nvm --version</span><br><span class="line">nvm install 18  # 安装 Node.js 18.x 版本</span><br><span class="line"></span><br><span class="line"># 在 EC2 上安装 MySQL 数据库：</span><br><span class="line">sudo apt install mysql-server</span><br><span class="line"></span><br><span class="line"># 启动</span><br><span class="line">sudo systemctl start mysql</span><br><span class="line"># 开机自启</span><br><span class="line">sudo systemctl enable mysql</span><br></pre></td></tr></table></figure>
+              </div>
+            </details>
+<details class="folding-tag" ><summary> root 用户下安装nvm时的小坑 </summary>
+              <div class='content'>
+              <ol><li><p>追加 nvm 初始化代码到 <code>/root/.bashrc</code></p><p>执行下面命令：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &#x27;export NVM_DIR=&quot;$HOME/.nvm&quot;&#x27; &gt;&gt; /root/.bashrc</span><br><span class="line">echo &#x27;[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; \. &quot;$NVM_DIR/nvm.sh&quot;&#x27; &gt;&gt; /root/.bashrc</span><br></pre></td></tr></table></figure></li><li><p>重新加载 bashrc</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">source /root/.bashrc</span><br></pre></td></tr></table></figure></li><li><p>测试 nvm 是否可用</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nvm --version</span><br></pre></td></tr></table></figure><p>如果输出版本号，说明成功了。</p><p>这是因为 nvm 的安装脚本本应该自动把初始化代码写入你的 shell 配置文件（比如 <code>.bashrc</code> 或 <code>.zshrc</code>），但在某些情况下：</p><ul><li>安装脚本检测不到你的 shell 类型，没自动写入；</li><li>你用的是 root 用户，脚本权限或者环境变量导致没写入；</li><li>之前的配置文件被覆盖或者没有权限修改。</li></ul><p>所以你需要手动把加载 nvm 的代码加到 <code>.bashrc</code>，才能让 shell 识别 <code>nvm</code> 命令。</p></li></ol><hr><p><strong>简单说就是</strong>：</p><p>安装时它默认只修改了当前普通用户的配置文件，或者没成功写入 root 用户的配置文件，所以你得自己手动加进去让 root 用户生效。</p>
+              </div>
+            </details>
+<h2 id="紧急将proxmox网卡直通给openwrt"><a href="#紧急将proxmox网卡直通给openwrt" class="headerlink" title="紧急将proxmox网卡直通给openwrt"></a>紧急将proxmox网卡直通给openwrt</h2><details class="folding-tag" ><summary> 设置网卡直通 </summary>
+              <div class='content'>
+              <p>安装nvm包管理工具时，遇到了需要挂梯子才可以正常拉取的情况，为了避免以后同样的麻烦，先解决一下。</p><h3 id="1-编辑-grub-配置文件："><a href="#1-编辑-grub-配置文件：" class="headerlink" title="1. 编辑 grub 配置文件："></a>1. 编辑 grub 配置文件：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /etc/default/grub</span><br></pre></td></tr></table></figure><p>找到这一行：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet&quot;</span><br></pre></td></tr></table></figure><p>修改为：</p><ul><li><strong>如果你是 Intel CPU：</strong></li></ul><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet intel_iommu=on&quot;</span><br></pre></td></tr></table></figure><ul><li><strong>如果你是 AMD CPU：</strong></li></ul><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet amd_iommu=on&quot;</span><br></pre></td></tr></table></figure><p>💡 你可以用 <code>lscpu | grep Vendor</code> 来确认 CPU 类型。</p><hr><h3 id="2-更新-grub："><a href="#2-更新-grub：" class="headerlink" title="2. 更新 grub："></a>2. 更新 grub：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">update-grub</span><br></pre></td></tr></table></figure><hr><h3 id="3-加载-vfio-模块（可选但建议）："><a href="#3-加载-vfio-模块（可选但建议）：" class="headerlink" title="3. 加载 vfio 模块（可选但建议）："></a>3. 加载 vfio 模块（可选但建议）：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo -e &quot;vfio\nvfio_iommu_type1\nvfio_pci\nvfio_virqfd&quot; &gt;&gt; /etc/modules</span><br></pre></td></tr></table></figure><p>然后立即加载（无需重启）：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">modprobe vfio</span><br><span class="line">modprobe vfio_iommu_type1</span><br><span class="line">modprobe vfio_pci</span><br></pre></td></tr></table></figure><hr><h3 id="4-重启系统："><a href="#4-重启系统：" class="headerlink" title="4. 重启系统："></a>4. 重启系统：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">update-initramfs -u -k all </span><br><span class="line"></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure><hr><h3 id="5-验证是否启用成功："><a href="#5-验证是否启用成功：" class="headerlink" title="5. 验证是否启用成功："></a>5. 验证是否启用成功：</h3><p>重启后运行：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">dmesg | grep -e DMAR -e IOMMU</span><br></pre></td></tr></table></figure><p>如果你看到：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mathematica复制编辑DMAR: IOMMU enabled</span><br><span class="line">DMAR-IR: Enabled IRQ remapping...</span><br><span class="line">Intel(R) Virtualization Technology for Directed I/O</span><br></pre></td></tr></table></figure><p>✅ 就说明启用了。</p>
+              </div>
+            </details>
+<details class="folding-tag" ><summary> 接下来要安装 op </summary>
+              <div class='content'>
+              <p>创建虚拟机，暂不添加启动介质，磁盘删掉，cpu类别选择host..</p><p>然后，宿主中执行：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">qm importdisk 100 /var/lib/vz/template/iso/Openwrt.img local-lvm</span><br></pre></td></tr></table></figure><p>✅ <strong>把 <code>Openwrt.img</code> 这个磁盘镜像文件，导入到 ID 为 100 的虚拟机中，作为一个虚拟硬盘，存储在 Proxmox 的 <code>local-lvm</code> 存储池中。</strong></p><p>接下来，双击这款磁盘镜像，确认添加，然后调整引导顺序，既可以启动op安装！</p>
+              </div>
+            </details>
+<details class="folding-tag" ><summary> op 做主路由还是二级路由或旁路由？ </summary>
+              <div class='content'>
+              <p>先说一下第一次折腾完毕的方案吧：</p><p>首先，华硕路由器作为主路由器pppoe拨号，lan口（192.168.5.1）怼在op（op虚拟在pve当中）的wan网口（dhcp客户端），然后剩余的一个lan口（此两个网口均物理直通）ip地址为192.168.10.1，没错，这种玩法，就是让op做了二级路由，并且桥接了一个虚拟接口，该虚拟接口分配给了位于pve中的ubuntu。</p><p>这样的弊端，家里需要开启两台无线路由器。</p><p>所以接下来很可能会换方法，直接让op做主路由，尽管他是装置pve内的虚拟机，只需要更改op wan口的协议为 pppoe ，设置拨号即可。然后，将之前的主路由器模式改为无线中继，直接转发op的lan口，lan 口的ip地址仍继续使用192.168.10.1就行..</p><p>记得设置好启动顺序 ~</p>
+              </div>
+            </details>
+<p>填坑记录1：op版本还是老的香，新版有意想不到的bug，例如：esir新版的高大全，无法使用列表模式，非常的操蛋，我选择装回之前的2021版；</p>
+<p>填坑记录2：pve安装op，概览当中显示的网口顺序和命名，实际为pve宿主机中为op添加的网口顺序，从eth0开始，依此命名，最佳实践为，启动之前添加好所有网口，虚拟在前，物理直通在后，安装完毕，（好像是）默认为第一个eth0 lan 口写入管理地址：192.168.5.1。</p>
+<p>从控制台进入系统后，尽量先不要着急改ip，正确的做法是先进入ui界面勾选lan口，然后更改lan口ip为另一网段，例如：192.168.10.1。</p>
+<p>至此，基本上小工告成。</p>
+<details class="folding-tag" ><summary> 为什么？ </summary>
+              <div class='content'>
+              <p><strong>为什么 Windows（192.168.10.x）能访问 PVE（192.168.5.99）？</strong></p><p><strong>情况 1：OpenWRT 的 WAN 口连接到主路由（NAT 模式）</strong></p><ul><li>OpenWRT 的 WAN 口从主路由获取 IP（如 <code>192.168.5.x</code>），而 LAN 口是 <code>192.168.10.1</code>。</li><li>Windows 连接 OpenWRT 的 WiFi，获取 <code>192.168.10.x</code> 的 IP。</li><li><strong>默认情况下，OpenWRT 会启用 NAT（网络地址转换）</strong>，使得 LAN 设备（Windows）可以通过 WAN 口访问外网（包括主路由和 PVE）。</li><li><strong>NAT 的作用</strong>：Windows 的流量会被 OpenWRT 转换为 WAN 口的 IP（<code>192.168.5.x</code>）访问主路由，主路由认为流量来自 OpenWRT，而不是 Windows。</li><li><strong>因此，Windows 可以访问 PVE</strong>，因为 OpenWRT 做了 NAT 转发。</li></ul><p>✅ <strong>这是最常见的情况</strong>，也是当前能访问 PVE 的原因。</p>
+              </div>
+            </details>
+<details class="folding-tag" ><summary> 初始化数据库 </summary>
+              <div class='content'>
+              <ul><li><p>root用户执行<code>sudo mysql_secure_installation</code>，进行数据库初始化：</p><p>| 步骤               | 作用                    | 推荐操作（生产环境）    |<br>| ————————— | ———————————- | ———————————- |<br>| 启用密码验证组件   | 防止设置弱密码          | 是                      |<br>| root 认证方式      | 默认为 auth_socket 插件 | 本地保留 / 远程改为密码 |<br>| 删除匿名用户       | 防止无授权访问          | 是                      |<br>| 禁止 root 远程登录 | 降低被暴力破解风险      | 是                      |<br>| 删除 test 数据库   | 减少潜在安全风险        | 是                      |<br>| 重新加载权限表     | 使配置生效              | 是                      |</p></li><li><p>接下来，创建数据库表，以及lychee的专属用户：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE lychee CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line">CREATE USER &#x27;lychee&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;386898136Di!&#x27;;</span><br><span class="line"></span><br><span class="line">GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON lychee.* TO &#x27;lychee&#x27;@&#x27;%&#x27;;</span><br><span class="line"></span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></li><li><p>以下情况，表示 MySQL 只接受本地连接，<strong>远程连接会被拒绝。</strong></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo grep -r &quot;bind-address&quot; /etc/mysql/</span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf:bind-address = 127.0.0.1</span><br></pre></td></tr></table></figure><p>得到：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root@proxmoxubuntu:~# sudo grep -r &quot;bind-address&quot; /etc/mysql/</span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf:bind-address = 127.0.0.1</span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf:bind-address         = 127.0.0.1</span><br><span class="line">/etc/mysql/mysql.conf.d/mysqld.cnf:mysqlx-bind-address  = 127.0.0.1</span><br></pre></td></tr></table></figure><p>你需要用编辑器打开文件，比如：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf</span><br></pre></td></tr></table></figure><p>找到 <code>bind-address</code> 行，将其改为：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bind-address = 0.0.0.0</span><br></pre></td></tr></table></figure><p>保存并重启 MySQL 服务：；</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart mysql</span><br></pre></td></tr></table></figure></li></ul>
+              </div>
+            </details>
+<h2 id="使用-Docker-Compose-管理（推荐）"><a href="#使用-Docker-Compose-管理（推荐）" class="headerlink" title="使用 Docker Compose 管理（推荐）"></a>使用 Docker Compose 管理（推荐）</h2><p>将配置写到 <code>docker-compose.yml</code>，修改时只需修改文件然后重新 <code>docker-compose up -d</code>，更方便管理。</p>
+<details class="folding-tag" ><summary> 使用 docker-compose </summary>
+              <div class='content'>
+              <p>安装 Docker Compose CLI 插件，下载最新 Compose CLI 插件：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p ~/.docker/cli-plugins/</span><br><span class="line">curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose</span><br><span class="line">chmod +x ~/.docker/cli-plugins/docker-compose</span><br></pre></td></tr></table></figure><p>然后试试：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker compose version</span><br></pre></td></tr></table></figure><h3 id="✅-第一步：创建文件夹（如果还没有）"><a href="#✅-第一步：创建文件夹（如果还没有）" class="headerlink" title="✅ 第一步：创建文件夹（如果还没有）"></a>✅ 第一步：创建文件夹（如果还没有）</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /opt/docker/lychee</span><br></pre></td></tr></table></figure><hr><h3 id="✅-第二步：创建-docker-compose-yml-文件"><a href="#✅-第二步：创建-docker-compose-yml-文件" class="headerlink" title="✅ 第二步：创建 docker-compose.yml 文件"></a>✅ 第二步：创建 <code>docker-compose.yml</code> 文件</h3><p>你可以使用你熟悉的文本编辑器，比如 <code>nano</code>：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /opt/docker/lychee/docker-compose.yml</span><br></pre></td></tr></table></figure><h4 id="用-cat-gt-文件名-快速粘贴（推荐）"><a href="#用-cat-gt-文件名-快速粘贴（推荐）" class="headerlink" title="用 cat &gt; 文件名 快速粘贴（推荐）"></a>用 <code>cat &gt; 文件名</code> 快速粘贴（推荐）</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /opt/docker/lychee/docker-compose.yml</span><br></pre></td></tr></table></figure><p>粘贴以下 <strong>纯文本内容</strong> 后，按下 <code>Ctrl + D</code> 结束输入保存。</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">version: &quot;3.8&quot;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  lychee:</span><br><span class="line">    image: lycheeorg/lychee</span><br><span class="line">    container_name: lychee</span><br><span class="line">    restart: unless-stopped</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;90:80&quot;</span><br><span class="line">    environment:</span><br><span class="line">      PUID: 1000</span><br><span class="line">      PGID: 1000</span><br><span class="line">      PHP_TZ: America/New_York</span><br><span class="line">      TIMEZONE: America/New_York</span><br><span class="line">      DB_CONNECTION: mysql</span><br><span class="line">      DB_HOST: 192.168.10.224</span><br><span class="line">      DB_PORT: 3306</span><br><span class="line">      DB_DATABASE: lychee</span><br><span class="line">      DB_USERNAME: lychee</span><br><span class="line">      DB_PASSWORD: 386898136Di!</span><br><span class="line">      APP_URL: http://192.168.10.224:90</span><br><span class="line">      APP_FORCE_HTTPS: &quot;false&quot;</span><br><span class="line">      TRUSTED_PROXIES: &quot;*&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - /opt/docker/lychee/conf:/conf</span><br><span class="line">      - /opt/docker/lychee/uploads:/uploads</span><br><span class="line">      - /opt/docker/lychee/sym:/sym</span><br><span class="line">    mem_limit: 300m</span><br></pre></td></tr></table></figure><p>按下 <code>Ctrl + O</code> 保存，回车确认，然后 <code>Ctrl + X</code> 退出编辑器。</p><hr><h3 id="✅-第三步：使用-Compose-启动容器"><a href="#✅-第三步：使用-Compose-启动容器" class="headerlink" title="✅ 第三步：使用 Compose 启动容器"></a>✅ 第三步：使用 Compose 启动容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd /opt/docker/lychee</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure><hr><h3 id="✅-后续常用命令"><a href="#✅-后续常用命令" class="headerlink" title="✅ 后续常用命令"></a>✅ 后续常用命令</h3><div class="table-container"><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td><code>docker compose up -d</code></td><td>后台启动容器</td></tr><tr><td><code>docker compose down</code></td><td>停止并删除容器</td></tr><tr><td><code>docker compose logs -f</code></td><td>查看实时日志</td></tr><tr><td><code>docker compose ps</code></td><td>查看当前运行状态</td></tr></tbody></table></div><details class="folding-tag" ><summary> 再进阶 - 使用.env存储易发生变动的变量 </summary>              <div class='content'>              <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nano /opt/docker/lychee/.env</span><br></pre></td></tr></table></figure><h4 id="用-cat-gt-文件名-快速粘贴（推荐）"><a href="#用-cat-gt-文件名-快速粘贴（推荐）" class="headerlink" title="用 cat &gt; 文件名 快速粘贴（推荐）"></a>用 <code>cat &gt; 文件名</code> 快速粘贴（推荐）</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cat &gt; /opt/docker/lychee/.env</span><br></pre></td></tr></table></figure><p>粘贴以下 <strong>纯文本内容</strong> 后，按下 <code>Ctrl + D</code> 结束输入保存。</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PUID=1000</span><br><span class="line">PGID=1000</span><br><span class="line">PHP_TZ=America/New_York</span><br><span class="line">TIMEZONE=America/New_York</span><br><span class="line"></span><br><span class="line">DB_CONNECTION=mysql</span><br><span class="line">DB_HOST=192.168.10.224</span><br><span class="line">DB_PORT=3306</span><br><span class="line">DB_DATABASE=lychee</span><br><span class="line">DB_USERNAME=lychee</span><br><span class="line">DB_PASSWORD=386898136Di!</span><br><span class="line"></span><br><span class="line">APP_URL=http://192.168.10.224:90</span><br><span class="line">APP_FORCE_HTTPS=false</span><br><span class="line">TRUSTED_PROXIES=*</span><br></pre></td></tr></table></figure><ul><li>如果只是简单修改配置文件并想更新容器，可以用：</li></ul><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker compose up -d --force-recreate</span><br></pre></td></tr></table></figure><p><code>docker compose up -d --force-recreate</code> 也是让修改后的 <code>.env</code> 文件配置生效的好办法。</p><p>它会：</p><ul><li>停止并删除旧容器</li><li>重新基于最新配置（包括 <code>.env</code>）创建并启动容器</li><li>保留你的挂载卷数据不丢失</li></ul><p>这个命令其实比单纯重启更“彻底”，适合确保配置完全更新的场景。</p><hr><p><strong>总结：</strong></p><div class="table-container"><table><thead><tr><th>命令</th><th>作用</th><th>适用情况</th></tr></thead><tbody><tr><td><code>docker compose restart lychee</code></td><td>只重启容器，不重新创建，配置不变</td><td>仅容器重启，无配置修改时</td></tr><tr><td><code>docker compose up -d --force-recreate</code></td><td>强制重建容器，应用最新配置</td><td>修改环境变量或配置文件时</td></tr></tbody></table></div><hr><p>所以，修改 <code>.env</code> 后，直接执行：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker compose up -d --force-recreate</span><br></pre></td></tr></table></figure><p>是个非常好的选择。</p>              </div>            </details>
+              </div>
+            </details>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>proxmox安装ubuntu+openwrt全过程记录</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://youruilin.github.io/posts/3acd2171/">https://youruilin.github.io/posts/3acd2171/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>游瑞林</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-07-06</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-07-12</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">虚拟机</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="next-post pull-full" href="/posts/ac06df29/" title="神领物流Vue3-AntDesign重构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">次へ</div><div class="next_info">神领物流Vue3-AntDesign重构</div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> コメント</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目次</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E8%87%B4%E6%80%9D%E8%B7%AF"><span class="toc-text">大致思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%88%8F%E5%87%86%E5%A4%87"><span class="toc-text">前戏准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ubuntu%E7%9A%84%E6%B8%85%E5%8D%8E%E5%A4%A7%E5%AD%A6%E6%BA%90"><span class="toc-text">ubuntu的清华大学源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%8A%98%E8%85%BE"><span class="toc-text">开始折腾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A7%E6%80%A5%E5%B0%86proxmox%E7%BD%91%E5%8D%A1%E7%9B%B4%E9%80%9A%E7%BB%99openwrt"><span class="toc-text">紧急将proxmox网卡直通给openwrt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%BC%96%E8%BE%91-grub-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="toc-text">1. 编辑 grub 配置文件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9B%B4%E6%96%B0-grub%EF%BC%9A"><span class="toc-text">2. 更新 grub：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8A%A0%E8%BD%BD-vfio-%E6%A8%A1%E5%9D%97%EF%BC%88%E5%8F%AF%E9%80%89%E4%BD%86%E5%BB%BA%E8%AE%AE%EF%BC%89%EF%BC%9A"><span class="toc-text">3. 加载 vfio 模块（可选但建议）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F%EF%BC%9A"><span class="toc-text">4. 重启系统：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E5%90%AF%E7%94%A8%E6%88%90%E5%8A%9F%EF%BC%9A"><span class="toc-text">5. 验证是否启用成功：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Docker-Compose-%E7%AE%A1%E7%90%86%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">使用 Docker Compose 管理（推荐）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%88%E5%A6%82%E6%9E%9C%E8%BF%98%E6%B2%A1%E6%9C%89%EF%BC%89"><span class="toc-text">✅ 第一步：创建文件夹（如果还没有）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA-docker-compose-yml-%E6%96%87%E4%BB%B6"><span class="toc-text">✅ 第二步：创建 docker-compose.yml 文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8-cat-gt-%E6%96%87%E4%BB%B6%E5%90%8D-%E5%BF%AB%E9%80%9F%E7%B2%98%E8%B4%B4%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">用 cat &gt; 文件名 快速粘贴（推荐）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%BD%BF%E7%94%A8-Compose-%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="toc-text">✅ 第三步：使用 Compose 启动容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9C%85-%E5%90%8E%E7%BB%AD%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">✅ 后续常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8-cat-gt-%E6%96%87%E4%BB%B6%E5%90%8D-%E5%BF%AB%E9%80%9F%E7%B2%98%E8%B4%B4%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">用 cat &gt; 文件名 快速粘贴（推荐）</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">格言🧬</p><div class="bg-ad"><div>再看看那个光点，它就在这里，这是家园，这是我们 —— 你所爱的每一个人，你认识的一个人，你听说过的每一个人，曾经有过的每一个人，都在它上面度过他们的一生✨</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://stellarium.org/">点击开启星辰之旅</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">猜你想看💡</p><ul class="ft-links"><li><a href="/posts/eec9786.html">魔改指南</a><a href="/box/nav/">网址导航</a></li><li><a href="/social/link/">我的朋友</a><a href="/comments/">留点什么</a></li><li><a href="/personal/about/">关于作者</a><a href="/archives/">文章归档</a></li><li><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a></li><li><a href="/box/Gallery/">我的画廊</a><a href="/personal/bb/">我的唠叨</a></li><li><a href="/site/time/">建设进程</a><a href="/site/census/">网站统计</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐友链⌛</p><div class="ft-img-group"><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.fomal.cc/" title="Fomalhaut🥝"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.bitiful.net/img/avatar.webp" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://tzy1997.com/" title="唐志远の博客"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://bu.dusays.com/2022/05/02/626f92e193879.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://akilar.top/" title="Akilarの糖果屋"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lskypro.acozycotage.net/LightPicture/2022/12/6bf1ed05796db59c.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://butterfly.js.org/" title="Butterfly"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lskypro.acozycotage.net/LightPicture/2022/12/64cc6a7d508026e1.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://anzhiy.cn/" title="安知鱼"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.bitiful.net/img/anzhiyu.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://akilar.top/link/" title="Acozycotage"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://akilar.top/img/siteicon/favicon.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://blog.bywind.xyz/" title="随风起"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog.bywind.xyz/img/avatar.png" alt=""/></a></div><div class="img-group-item"><a href="javascript:void(0)" title="张洪"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://bu.dusays.com/2022/12/28/63ac2812183aa.png" alt=""/></a></div></div></div></div><div class="copyright"><span><b>&copy;2019 - 2025</b></span><span><b>&nbsp;&nbsp;By 游瑞林</b></span></div><div class="framework-info"><span>フレームワーク </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>テーマ </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" title="博客框架为Hexo_v7.3.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" title="主题版本Butterfly_v5.0.0-b1"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" title="本站采用多线部署，主线路托管于Vercel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="https://user.51.la/" style="margin-inline:5px" title="本站使用JsDelivr为静态资源提供CDN加速"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://icp.gov.moe/?keyword=20226665" style="margin-inline:5px" title="本站采用双线部署，默认线路托管于Vercel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://bitiful.dogecast.com/buckets" style="margin-inline:5px" title="本站采用双线部署，联通线路托管于Coding"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&amp;logo=Codio" alt=""/></a><a class="github-badge" target="_blank" href="https://www.netdun.net/" style="margin-inline:5px" title="本站使用网盾星球提供CDN加速与防护"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.ladydaily.com/badge/CDN-网盾星球-fff2cc.svg" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="読書モード"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="簡体字と繁体字の切り替え">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="ライトモード/ダークモード切り替え"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="シングルカラムとダブルカラムの切り替え"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><a id="to_comment" href="#post-comment" title="コメントへ移動"><i class="fas fa-comments"></i></a><button id="hide-aside-btn" type="button" title="シングルカラムとダブルカラムの切り替え"><i class="fas fa-arrows-alt-h"></i></button><button class="close" id="mobile-toc-button" type="button" title="目次"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="トップに戻る"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-zeta-coral.vercel.app/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-zeta-coral.vercel.app/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/js/random.js"></script><script src="//at.alicdn.com/t/c/font_4684778_183q7j85b02.js"></script><script defer src="/js/runtime.js"></script><script defer src="/js/tooltip.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script defer data-pjax src="/js/txmap.js"></script><script src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script async src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/index.js"></script><script defer src="/js/custom.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.19.0/sweetalert2.all.min.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="/js/sun_moon.js" async></script><script src="/js/f12.js"></script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><script async src="/js/console.js"></script><script data-pjax src="/js/nav.js"></script><script async src="/js/fps.js"></script><script async src="/js/title.js"></script><script async data-pjax src="/js/meting_js.js"></script><script async data-pjax src="/js/music.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+const triggerPjaxFn = (val) => {
+  if (!val) return
+  Object.values(val).forEach(fn => { fn() })
+}
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjaxSendOnce')
+  btf.removeGlobalFnEvent('themeChange')
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  triggerPjaxFn(window.globalFn.pjaxSend)
+})
+
+document.addEventListener('pjax:complete', () => {
+  btf.removeGlobalFnEvent('pjaxCompleteOnce')
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  triggerPjaxFn(window.globalFn.pjaxComplete)
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">検索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  データベースを読み込んでいます</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/日语/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 日本語能力練習している (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/hexo/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 hexo_blog 搭建全过程 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/前端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 Vite + vue3 + ts 双端招聘项目 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/git/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 git 相关 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/后端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 后端 api_server (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://youruilin.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #49b1f5}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/youruilin/pic_bed/blob/main/bcg_img/%E5%92%8C%E9%A3%8E%E5%B7%A5%E4%BD%9C%E5%8F%B0%E9%9D%A2.jpg?raw=true" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt="">日本語勉強している·頑張れ！</a><div class="blog-slider__text">记录学习日语的全过程, 保持不断地学习..</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/medium/38/53/e2ec8d2bd090dd1321fa01254923.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-04-27</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt="">双招项目后端api全过程实现</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lychee.iooio.cn/uploads/original/3d/44/667fa779ad75e6062e263075a028.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-03-26</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt="">ec2使用docker部署lychee图床全过程记录</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"log":false});</script></body></html>
