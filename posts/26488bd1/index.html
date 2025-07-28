@@ -1,0 +1,447 @@
+<!DOCTYPE html><html lang="[&quot;ja&quot;,&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]" data-theme="light"><head><style>:root {
+  --article-theme-color: #e5a80d;
+}</style><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ブログ周年の考察 | iooio_blog</title><meta name="author" content="游瑞林"><meta name="copyright" content="游瑞林"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content=".ai-summary-active .ai-summary-icon-title text:first-of-type {         display: none !important;       }        .ai-summary-active .ai-summary-icon-title text:last-child {         disp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ブログ周年の考察">
+<meta property="og:url" content="https://youruilin.github.io/posts/26488bd1/index.html">
+<meta property="og:site_name" content="iooio_blog">
+<meta property="og:description" content=".ai-summary-active .ai-summary-icon-title text:first-of-type {         display: none !important;       }        .ai-summary-active .ai-summary-icon-title text:last-child {         disp">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://youruilin.github.io/img/butterfly-icon.webp">
+<meta property="article:published_time" content="2025-02-06T17:25:40.000Z">
+<meta property="article:modified_time" content="2025-02-08T03:00:42.000Z">
+<meta property="article:author" content="游瑞林">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youruilin.github.io/img/butterfly-icon.webp"><link rel="shortcut icon" href="/img/favicon_io/android-chrome-192x192.png"><link rel="canonical" href="https://youruilin.github.io/posts/26488bd1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = true
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"${query} の検索結果が見つかりませんでした。","hits_stats":"${hits} 件の記事が見つかりました"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: 'コピー成功',
+    error: 'コピー失敗',
+    noSupport: 'ブラウザが対応していません'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '日',
+  dateSuffix: {
+    just: 'たった今',
+    min: '分前',
+    hour: '時間前',
+    day: '日前',
+    month: 'ヶ月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: {"chs_to_cht":"繁体字に切り替えました","cht_to_chs":"簡体字に切り替えました","day_to_night":"ダークモードに切り替えました","night_to_day":"ライトモードに切り替えました","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'もっと見る'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ブログ周年の考察',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-08 03:00:42'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_4684778_zddxn068xgp.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/theme-chalk/index.css"><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/progress_bar.css" media="defer" onload="this.media='all'"><span id="fps"></span><link rel="stylesheet" href="/css/tooltip.css" media="defer" onload="this.media='all'"><div id="myscoll"></div><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="an_music_bg">    </div><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/youruilin/pic_bed/main/bcg_img/index_test.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/butterfly-icon.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">記事</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">タグ</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">カテゴリ</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-home faa-tada"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-home faa-tada"></i><span> 首页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="fa-fw fas fa-tags faa-tada"></i><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="fa-fw fas fa-folder-open faa-tada"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw fas fa-link faa-tada"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat faa-tada"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="fa-fw fas fa-music faa-tada"></i><span> 音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/Gallery/"><i class="fa-fw fas fa-images faa-tada"></i><span> 照片</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/movies/"><i class="fa-fw fas fa-video faa-tada"></i><span> 电影</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="fa-fw fas fa-laptop faa-tada"></i><span> 我的装备</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw fas fa-heart faa-tada"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-language faa-tada"></i><span> 语言</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-c faa-tada"></i><span> 中文</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/jp/"><i class="fa-fw fas fa-j faa-tada"></i><span> 日本語</span></a></li><li><a class="site-page child faa-parent animated-hover" target="_blank" rel="noopener" href="https://butterfly.js.org/en/"><i class="fa-fw fas fa-e faa-tada"></i><span> English</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="iooio_blog"><span id="site-name">iooio_blog</span></a><div class="back-home-button" tabindex="-1"><i class="back-home-button-icon fas fa-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="https://youruilin.github.io/Hexo_nav/" title="前往个人导航" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/original/03/a7/945ec4715b14d857227aa23429f7.webp"/><span class="back-menu-item-text">个人导航</span></a><a class="back-menu-item" href="/" rel="external nofollow" title="博客主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/original/27/37/cba78cfecaff456df3d2f40a4ded.webp" style="width: 30px; height: 30px;"/><span class="back-menu-item-text">博客主页</span></a><a class="back-menu-item" href="https://youruilin.github.io/index_blog/" rel="external nofollow" title="前往个人主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img02.anheyu.com/adminuploads/1/2022/04/27/6268e7d9de532.png"/><span class="back-menu-item-text">个人主页</span></a><a class="back-menu-item" href="http://lychee.iooio.cn:9527/" rel="external nofollow" title="lychee" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/original/3d/44/667fa779ad75e6062e263075a028.webp"/><span class="back-menu-item-text">lychee图床</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" href="/" title="前往博客主页" target="_blank" one-link-mark="yes"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/original/3e/33/45b5e9c7796e9940d0351db5aeb5.webp"/><span class="back-menu-item-text">博客</span></a></div></div></div></div></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-home faa-tada"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-home faa-tada"></i><span> 首页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="fa-fw fas fa-tags faa-tada"></i><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="fa-fw fas fa-folder-open faa-tada"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw fas fa-link faa-tada"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat faa-tada"></i><span> 我的</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="fa-fw fas fa-music faa-tada"></i><span> 音乐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/Gallery/"><i class="fa-fw fas fa-images faa-tada"></i><span> 照片</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/movies/"><i class="fa-fw fas fa-video faa-tada"></i><span> 电影</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="fa-fw fas fa-laptop faa-tada"></i><span> 我的装备</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw fas fa-heart faa-tada"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page group faa-parent animated-hover" href="javascript:void(0);"><i class="fa-fw fas fa-language faa-tada"></i><span> 语言</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/"><i class="fa-fw fas fa-c faa-tada"></i><span> 中文</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/jp/"><i class="fa-fw fas fa-j faa-tada"></i><span> 日本語</span></a></li><li><a class="site-page child faa-parent animated-hover" target="_blank" rel="noopener" href="https://butterfly.js.org/en/"><i class="fa-fw fas fa-e faa-tada"></i><span> English</span></a></li></ul></div></div><center id="name-container"><a id="page-name" href="javascript:scrollToTop()">PAGE_NAME</a></center><div id="nav-right"><div id="search-button"><a class="search faa-parent animated-hover" title="检索站内任何你想要的信息"><svg class="faa-tada icon" style="height:23px;width:23px;fill:currentColor;position:relative;top:4px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg></a></div><a class="meihua faa-parent animated-hover" onclick="toRandomPost()" title="随机跳转一篇文章" id="meihua-button"><svg class="faa-tada icon" style="height:26px;width:26px;fill:currentColor;position:relative;top:6px" aria-hidden="true"><use xlink:href="#icon-feijix"></use></svg></a><a class="sun_moon faa-parent animated-hover" onclick="switchNightMode()" title="ライトモード/ダークモード切り替え" id="nightmode-button"><svg class="faa-tada" style="height:24px;width:24px;fill:currentColor;position:relative;top:8px" aria-hidden="true"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a><i class="fas fa-bars fa-fw"></i></a></div></div></div></nav><div id="post-info"><h1 class="post-title">ブログ周年の考察</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">作成日</span><time class="post-meta-date-created" datetime="2025-02-06T17:25:40.000Z" title="作成日 2025-02-06 17:25:40">2025-02-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新日</span><time class="post-meta-date-updated" datetime="2025-02-08T03:00:42.000Z" title="更新日 2025-02-08 03:00:42">2025-02-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">総文字数:</span><span class="word-count">1540</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">読む時間:</span><span>5分</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" href="/hexo-ai-summaries/gemini.css">
+<div class="post-gemini-ai">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="126" height="20" role="img" class="ai-summary-trigger">
+    <style>
+      .ai-summary-active .ai-summary-icon-title text:first-of-type {
+        display: none !important;
+      }
+
+      .ai-summary-active .ai-summary-icon-title text:last-child {
+        display: initial !important;
+      }
+
+      .ai-summary-active #r rect {
+        width: 105px !important;
+      }
+
+      .ai-summary-active .ai-summary-rect {
+        width: 80px !important;
+      }
+
+      .ai-summary-pen {
+        opacity: 1;
+        animation: ai-wink 2s infinite;
+      }
+
+      @keyframes ai-wink {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+    <linearGradient id="s" x2="0" y2="100%">
+      <stop offset="0" stop-color="#bbb" stop-opacity=".1" />
+      <stop offset="1" stop-opacity=".1" />
+    </linearGradient>
+    <clipPath id="r">
+      <rect width="125" height="20" rx="3" fill="#fff" />
+    </clipPath>
+    <g clip-path="url(#r)">
+      <rect width="25" height="20" fill="#555" />
+      <rect class="ai-summary-rect" x="25" width="100" height="20" fill="#007ec6" />
+      <rect width="25" height="20" fill="url(#s)" />
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110" class="ai-summary-icon-title">
+      <image class="ai-summary-pen" x="5" y="3" width="14" height="14" xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im0yMS42NCAzLjY0bC0xLjI4LTEuMjhhMS4yMSAxLjIxIDAgMCAwLTEuNzIgMEwyLjM2IDE4LjY0YTEuMjEgMS4yMSAwIDAgMCAwIDEuNzJsMS4yOCAxLjI4YTEuMiAxLjIgMCAwIDAgMS43MiAwTDIxLjY0IDUuMzZhMS4yIDEuMiAwIDAgMCAwLTEuNzJNMTQgN2wzIDNNNSA2djRtMTQgNHY0TTEwIDJ2Mk03IDhIM20xOCA4aC00TTExIDNIOSIvPjwvc3ZnPg==" />
+      <text x="750" y="140" transform="scale(.1)" fill="#fff" textLength="900">ai-要約を取得</text>
+      <text style="display: none" x="650" y="140" transform="scale(.1)" fill="#fff" textLength="600">文章摘要</text>
+    </g>
+  </svg>
+</div>
+<script src="/hexo-ai-summaries/gemini.js"></script>
+<p>あっという間に新しいブログが安定して半年間運営されています。この半年間は、学びと共有の連続でしたが、決して順調ではなく、時には諦めの気持ちも湧きました。しかし、全体の過程を振り返ると、多くの成果を得ました。もっと多くの知識を得て、もっと多くの能力を身につけ、もっと多くの友人を得ました。</p>
+<p>このような過程の中で、（（私は世界に対する認識がより深くなり、世界の運行規則をますます理解するようになりました。））</p>
+<p>どんな環境や状態にいても、自分の人生の進行速度を絶えず進めることが、生活をより充実させ、楽しさで満たしてくれるのです。</p>
+<p>今日は、最初に個人サイトを作成した時から今に至るまでの過程を振り返ってみました。</p>
+<h2 id="夢の始まり"><a href="#夢の始まり" class="headerlink" title="夢の始まり"></a>夢の始まり</h2><p>最初にブログを作ろうと思ったのは、ある普通の夜、私の人生に影響を与える行動を起こしました。「自分のサイトを作ろう」と。</p>
+<p>私はすでにHTML、CSS、JavaScriptなどのフロントエンド開発の知識を持っていましたが、個人ブログサイトはコンテンツ管理、ドキュメント解析、コメントシステムなどを含みます。また、バックエンド言語やデータベース、サーバーの運用、デプロイメントの学習も必要でした。それに加えて、パフォーマンスの最適化技術も学ばなければなりませんでした。全体として、ほぼ新しい分野でした。</p>
+<p>（（私は平面デザイン出身で、ウェブ開発に転職したフロントエンドエンジニアです））。自学で転職し、働きながら学んでいたので、最初はコードも全く理解していない人間から、Git、サーバー、フロントエンドなど一連のことに（（何も知らなかった私にとっては、とても難しかったです））。</p>
+<p>だから、最初にブログを作った理由は、学んだことを整理し、プロジェクトの開発ドキュメントをまとめることでした。また、これを通じて自分の影響力を高めたかったのです。デザイン業界に入るためにも、また仕事を探すためにも、これがきっと役立つと考えました。</p>
+<p>実際、最初は（（非常に単純で、少し利益を感じる動機でした））です。</p>
+<h2 id="再び選択"><a href="#再び選択" class="headerlink" title="再び選択"></a>再び選択</h2><p>自分の能力をはるかに超えることに直面すると、ほとんどの場合は諦めの気持ちが湧きます。（（しかし、だからこそ自分を挑戦し続けることで、自分を超える奇跡が起こるのです。））</p>
+<p>人生の中で輝かしい瞬間はおそらく短いものが多く、努力や挫折の方が大部分を占めているのではないでしょうか。ウェブサイトを作ることも同様です。</p>
+<p>予算がなかったため、最初は高いコストをかけて見通しのつかない実験的な目標を立てる気にはなれませんでした。だから、Hexoをブログとして選んだ理由もあります。</p>
+<p>GitHub Pagesは完全に無料で、HexoのGitを使ってウェブページをGitHub Pagesにアップロードできるため、私は完全に無料で最初のウェブサイトを持つことができました。</p>
+<h2 id="契機"><a href="#契機" class="headerlink" title="契機"></a>契機</h2><p>私は子供の頃から製品デザインに強い興味を持っていました。友達とゲーム機のカードを交換する際、絵柄が美しいカードが必ずしも良いゲーム体験を意味しないことに気付きましたが、それでもそれが最も魅力的な理由となっていました。その後、平面デザインを選び、UIデザイナーになることを決めました。私は自分の人生がデザインと切っても切れない関係にあると感じています。</p>
+<p>UIデザインに従事した後、ネット上の多くのビデオやチュートリアルは3Dデザインやモデリングに重点を置いていることに気づきました。私は理工学の出身ですが、モデリングにはそれほど問題はありませんが、正直言って非常に退屈でした。（（私は、私の趣味は視覚効果の展示ではなく、もっとユーザーとソフトウェアとの間のインタラクションロジックにあるのかもしれないことに気づきました。））</p>
+<p>伝えたい情報を（（効率よく、優雅にすべてのユーザーに伝えること））。</p>
+<p>これが私が好きなこと、私の趣味かもしれません。この発見以来、（（私は“完璧なUIデザイナー”という幻想との戦いに悩むことはなくなりました））。モデリングやレンダリング、イラストを競い合うことを考えることはありません。</p>
+<p>私はフォーラムで絵が得意な人たちをたくさん見てきましたし、素晴らしい絵画作品もたくさん見てきました。（（私は、何が良い絵やイラストなのか、どんな画像が必要かを知っていればそれで十分だと思います））。絵やモデリングを愛するデザイナーは世界にたくさんいます。適切な人に適切な仕事を任せることが大切だと思います。</p>
+<p>私はもし3Dやイラストを数年学んでいたら、おそらく人々から「完璧なデザイナー」と見なされるでしょう。でもその「完璧なデザイナー」というのは、自分が好きではない仕事をしている可能性があります。</p>
+<p>だから私は思います、（（この忙しい人生の中で、自分の好きなこと、興味があること、そして自分が支払う意欲がある方向にエネルギーを注ぐべきだと））。</p>
+<p>ブログを自分の製品として作り上げ、磨いていきます。その過程で、自分のデザインがより正確に、私の望む形で実現できるよう、uniappを学び、モバイル端末のiOSとAndroidに対応させるようになりました。</p>
+<h2 id="挫折に直面"><a href="#挫折に直面" class="headerlink" title="挫折に直面"></a>挫折に直面</h2><p>技術が進化する中で、私は技術の道には近道もあれば、抜け道もあることに気づきました。しかし、それは通常、バグを解決するための数え切れない夜を意味し、段階的な成果を得る前には全くうまくいかないこともあります。</p>
+<p>Vueフレームワークの学習を始めて半年が経ち、最初のフロントエンド作品「スマートモール」を完成させました。しかし、プロジェクトが公開される直前にバックエンドのAPIサービスがダウンし、再び諦めそうになりました。</p>
+<p>（（バックエンド開発とデータベース、これもまた私の能力を超える問題のように感じました））。</p>
+<p>一方、ブログの方では、元のテーマの作者が更新を停止し、テーマが活気を失った時、ドメインを強制的に変更され、Butterflyテーマを変更したり、データベースを削除して再インストールするという一連の問題が発生しました（当時はGitを使えなかったので、バックアップはすべてコピー＆ペーストで行っていました）。次第に、最初の幻想は薄れていきました。今は、ブログを自分の日記として使うことに決めました。インターネット上で直面した問題とその解決方法を記録するためです。</p>
+<p>前途が見えない状況では、ただ一歩一歩進んでいくしかありませんでした。ゼロから書き始めるわけではありませんが、基本的なロジックは理解しています。（（コードの修正から始めることができました））。</p>
+<p>（（他人が公開してくれたコードの重要な部分を修正していくことができます））。そうすれば、私が望む効果を得ることができるからです。</p>
+<p>だから本当に、（（ウェブサイトが自分の思い通りに構築できるかどうかは、決意と粘り強さにかかっています））。もちろん、デザイナーとして最大の困難は、頭の中で想像している表現方法が、技術的に実現できない場合に直面することです。</p>
+<p>ほとんどの場合、ちょっとした問題を解決するのに数日かかることがあります。（（毎回、ちょっとした問題を何日間も寝ずに解決したときの喜びは、内面から湧き上がるものです。））</p>
+<h2 id="積み重ね"><a href="#積み重ね" class="headerlink" title="積み重ね"></a>積み重ね</h2><p>現在ブログで使っているツールチップ機能は、私が4年前に書いたものです。その頃、私はウェブ開発の初心者で、日語の記事にマウスオーバーしたときに自動的に仮名を表示するツールチップを追加したいと思っていました。このツールチップ設計はすぐにできたもので、1時間くらいで完成しました。しかし、開発が全くわからなかった私には、このコードを書くだけで1週間以上かかりました。</p>
+<p>当時の自分を振り返ると、バグを見つけるたびに百度で調べ、機能実現のために他人のコードをコピーして貼り付け、さらに修正していました。（（私の成長はインターネットのオープンソース精神に支えられてきたと思います。私は、顔も名前も知らない、多くの人々から指導やチュートリアル、コードを提供してもらいました。））</p>
+<p>もしかすると、この瞬間から私にとってブログの意味が変わったのかもしれません。（（ブログはもはや、自分の影響力を高め、仕事を見つける手段としてのツールではなく、他者を助け、インターネットのオープン精神を広めるためのチャネルになったのです。））</p>
+<p>おそらく、他の自媒体サイトでの流行の方が速いかもしれませんが、ブログを自分で作ると、コンテンツをいつでも修正でき、目立つために粉飾する必要もなく、フォロワーを増やすために気を使うこともなく、データや収益を気にすることもありません。</p>
+<p>だから、最初は広告を入れようと思ったこともありましたが、後でそれを削除し、（（これがGoogle広告やウェブサイトアフィリエイト広告を入れなかった理由でもあります））。</p>
+<p>これこそが、私が望んでいたこと、最も望んでいること、そしてそれを達成するために努力していることです。</p>
+<p>だから、言うならば、すべての記事は自分に向けて書かれたものです。同じ問題に再び直面する未来の自分に向けて書かれたものです。そして、同じ問題に直面する他の人々にも向けて書かれたものです。もしかすると、他の人が私の記事を見て、私がブログに加えたちょっとした機能デザインや、快適な閲覧体験に感銘を受け、（（それが彼らにインスピレーションを与え、問題解決をもたらし、または私と同じように、彼ら自身の快適なウェブサイトを作り上げる手助けになればと思います））。</p>
+<h2 id="再成長"><a href="#再成長" class="headerlink" title="再成長"></a>再成長</h2><p>ブログを製品としてデザインし、練習作を製品として作ることで、私は学校や仕事で学んだデザインとインタラクションに関する知識とスキルを最大限に活かしました。印象的なウェブサイトと製品を作り上げることができました。（（華やかな視覚的インパクトは少ないかもしれませんが、使ってみて最も快適に感じられるものの一つには違いありません））。</p>
+<p>これは（（平面デザイナーからウェブデザイナー、そしてウェブ開発者への道のり））における茨の道でした。</p>
+<p>無数のキーを叩いた手の中には、解決策を探し続けた無数の夜がありました（私はオンライン講座を受けたこともなく、グループで質問するのも効率が悪すぎました）。しかし、これらの経験を経て、私は自分が行った仕事やその背後にある運行規則に対して、より深い理解を持つようになり、真実により近づいていると感じています。</p>
+<p>新しい2025年には、バックエンドAPIの作成やデータベース操作、サーバー運用について、ようやく運営ルールを理解できるようになりました。HTMLやCSSも非常に熟練して使いこなせるようになり、基本的なJavaScriptも難なく使いこなせます。データベースを誤って削除した後、半年近く滞っていたホームページも、ブログの2025年の到来を迎えるにあたり、再び（静的ウェブページ）として書き直しました。</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>ブログ周年の考察</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://youruilin.github.io/posts/26488bd1/">https://youruilin.github.io/posts/26488bd1/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>游瑞林</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2025-02-06</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2025-02-08</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hexo/">hexo</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="prev-post pull-left" href="/posts/3864ab/" title="在 Hexo 中使用 AI（Gemini Pro）生成文章摘要"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">前へ</div><div class="prev_info">在 Hexo 中使用 AI（Gemini Pro）生成文章摘要</div></div></a><a class="next-post pull-right" href="/posts/373e5f8d/" title="博客周年的思考"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">次へ</div><div class="next_info">博客周年的思考</div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>関連記事</span></div><div class="relatedPosts-list"><a href="/posts/42cfc10a/" title="gitactions 实现自动化部署（三）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-17</div><div class="title">gitactions 实现自动化部署（三）</div></div></a><a href="/posts/27f8ffde/" title="hexo_blog 多语言改造"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-16</div><div class="title">hexo_blog 多语言改造</div></div></a><a href="/posts/e9fa50d9/" title="hexo_blog原创开发tooltip功能"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-12-03</div><div class="title">hexo_blog原创开发tooltip功能</div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> コメント</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目次</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A2%E3%81%AE%E5%A7%8B%E3%81%BE%E3%82%8A"><span class="toc-text">夢の始まり</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E3%81%B3%E9%81%B8%E6%8A%9E"><span class="toc-text">再び選択</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A5%91%E6%A9%9F"><span class="toc-text">契機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%AB%E6%8A%98%E3%81%AB%E7%9B%B4%E9%9D%A2"><span class="toc-text">挫折に直面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%8D%E3%81%BF%E9%87%8D%E3%81%AD"><span class="toc-text">積み重ね</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E6%88%90%E9%95%B7"><span class="toc-text">再成長</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">格言🧬</p><div class="bg-ad"><div>再看看那个光点，它就在这里，这是家园，这是我们 —— 你所爱的每一个人，你认识的一个人，你听说过的每一个人，曾经有过的每一个人，都在它上面度过他们的一生✨</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://stellarium.org/">点击开启星辰之旅</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">猜你想看💡</p><ul class="ft-links"><li><a href="/posts/eec9786.html">魔改指南</a><a href="/box/nav/">网址导航</a></li><li><a href="/social/link/">我的朋友</a><a href="/comments/">留点什么</a></li><li><a href="/personal/about/">关于作者</a><a href="/archives/">文章归档</a></li><li><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a></li><li><a href="/box/Gallery/">我的画廊</a><a href="/personal/bb/">我的唠叨</a></li><li><a href="/site/time/">建设进程</a><a href="/site/census/">网站统计</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐友链⌛</p><div class="ft-img-group"><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.fomal.cc/" title="Fomalhaut🥝"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.bitiful.net/img/avatar.webp" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://tzy1997.com/" title="唐志远の博客"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://bu.dusays.com/2022/05/02/626f92e193879.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://akilar.top/" title="Akilarの糖果屋"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lskypro.acozycotage.net/LightPicture/2022/12/6bf1ed05796db59c.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://butterfly.js.org/" title="Butterfly"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://lskypro.acozycotage.net/LightPicture/2022/12/64cc6a7d508026e1.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://anzhiy.cn/" title="安知鱼"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.bitiful.net/img/anzhiyu.jpg" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://akilar.top/link/" title="Acozycotage"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://akilar.top/img/siteicon/favicon.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://blog.bywind.xyz/" title="随风起"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://blog.bywind.xyz/img/avatar.png" alt=""/></a></div><div class="img-group-item"><a href="javascript:void(0)" title="张洪"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://bu.dusays.com/2022/12/28/63ac2812183aa.png" alt=""/></a></div></div></div></div><div class="copyright"><span><b>&copy;2019 - 2025</b></span><span><b>&nbsp;&nbsp;By 游瑞林</b></span></div><div class="framework-info"><span>フレームワーク </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>テーマ </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" title="博客框架为Hexo_v7.3.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" title="主题版本Butterfly_v5.0.0-b1"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" title="本站采用多线部署，主线路托管于Vercel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="https://user.51.la/" style="margin-inline:5px" title="本站使用JsDelivr为静态资源提供CDN加速"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://icp.gov.moe/?keyword=20226665" style="margin-inline:5px" title="本站采用双线部署，默认线路托管于Vercel"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://bitiful.dogecast.com/buckets" style="margin-inline:5px" title="本站采用双线部署，联通线路托管于Coding"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&amp;logo=Codio" alt=""/></a><a class="github-badge" target="_blank" href="https://www.netdun.net/" style="margin-inline:5px" title="本站使用网盾星球提供CDN加速与防护"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.ladydaily.com/badge/CDN-网盾星球-fff2cc.svg" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="読書モード"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="簡体字と繁体字の切り替え">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="ライトモード/ダークモード切り替え"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><button id="hide-aside-btn" type="button" title="シングルカラムとダブルカラムの切り替え"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><a id="to_comment" href="#post-comment" title="コメントへ移動"><i class="fas fa-comments"></i></a><button id="hide-aside-btn" type="button" title="シングルカラムとダブルカラムの切り替え"><i class="fas fa-arrows-alt-h"></i></button><button class="close" id="mobile-toc-button" type="button" title="目次"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="トップに戻る"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-zeta-coral.vercel.app/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(res => {
+      countELement.textContent = res[0].count
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-zeta-coral.vercel.app/',
+      region: '',
+      onCommentLoaded: () => {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') setTimeout(init,0)
+    else btf.getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(init)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = loadTwikoo
+  }
+})()</script></div><script src="/js/random.js"></script><script src="//at.alicdn.com/t/c/font_4684778_183q7j85b02.js"></script><script defer src="/js/runtime.js"></script><script defer src="/js/tooltip.js"></script><script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js"></script><script defer data-pjax src="/js/txmap.js"></script><script src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script async src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script><script async src="https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/index.js"></script><script defer src="/js/custom.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="/js/cursor.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.19.0/sweetalert2.all.min.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script src="/js/sun_moon.js" async></script><script src="/js/f12.js"></script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><script async src="/js/console.js"></script><script data-pjax src="/js/nav.js"></script><script async src="/js/fps.js"></script><script async src="/js/title.js"></script><script async data-pjax src="/js/meting_js.js"></script><script async data-pjax src="/js/music.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+const triggerPjaxFn = (val) => {
+  if (!val) return
+  Object.values(val).forEach(fn => { fn() })
+}
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjaxSendOnce')
+  btf.removeGlobalFnEvent('themeChange')
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  triggerPjaxFn(window.globalFn.pjaxSend)
+})
+
+document.addEventListener('pjax:complete', () => {
+  btf.removeGlobalFnEvent('pjaxCompleteOnce')
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  triggerPjaxFn(window.globalFn.pjaxComplete)
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">検索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  データベースを読み込んでいます</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/日语/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 日本語能力練習している (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/hexo/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 hexo_blog 搭建全过程 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/前端开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 Vite + vue3 + ts 双端招聘项目 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/git/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 git 相关 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youruilin.github.io/categories/后端/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 后端 api_server (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="https://youruilin.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #49b1f5}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://github.com/youruilin/pic_bed/blob/main/bcg_img/%E5%92%8C%E9%A3%8E%E5%B7%A5%E4%BD%9C%E5%8F%B0%E9%9D%A2.jpg?raw=true" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-05-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt="">日本語勉強している·頑張れ！</a><div class="blog-slider__text">记录学习日语的全过程, 保持不断地学习..</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/d711a81c/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/medium/38/53/e2ec8d2bd090dd1321fa01254923.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-07-22</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt="">双招项目后端api全过程实现</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/629f32c0/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="http://lychee.iooio.cn:9527/uploads/original/3d/44/667fa779ad75e6062e263075a028.webp" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-07-22</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt="">ec2使用docker部署lychee图床全过程记录</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;posts/7f37c772/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"log":false});</script></body></html>
